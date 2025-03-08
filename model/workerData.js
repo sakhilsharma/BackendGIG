@@ -19,10 +19,10 @@ const WorkerCredentialSchema = new mongoose.Schema({
   },
   govtCertifications: [
     {
-      name: { type: String, required: true }, // e.g., "Electrician License"
-      fileUrl: { type: String, required: true }, // Cloud storage URL
-      issuedBy: { type: String, required: true },
-      issueDate: { type: Date, required: true },
+      name: { type: String, }, // e.g., "Electrician License"
+      fileUrl: { type: String, }, // Cloud storage URL
+      issuedBy: { type: String, },
+      issueDate: { type: Date, },
     },
   ],
   paymentRange: {

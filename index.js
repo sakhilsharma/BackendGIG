@@ -12,7 +12,7 @@ dotenv.config(); // Load the .env file
 //cors 
 const cors = require('cors');
 app.use(cors({
-    origin: 'http://localhost:8080', // Adjust based on your frontend port
+    origin: 'http://localhost:8081', // Adjust based on your frontend port
     credentials: true
 }));
 
