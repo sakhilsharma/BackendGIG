@@ -10,11 +10,13 @@ const jwt = require('jsonwebtoken');
 //const getAIResponse = require("../chatBotapi/api");
 const Wsignin = require("./worker/Wsignin");
 const wData = require("../routes/worker/wData");
-
+const  wCredentialsCheck = require("./worker/wCredentialsCheck");
 const authMiddleware = require("./worker/authwData");
-
+const auth2 = require("./worker/wAuth2");
+const showData = require("./worker/showData");
 //console.log("api key :" , process.env.GEMINI_API_KEY); Working well
 const geminiResponse = require("./geminiResponse");
+const WorkerCredential = require('../model/workerData');
 router.get('/', (req, res) => {
   console.log("router working well");
 })
@@ -61,7 +63,9 @@ router.post("/logout", (req, res) => {
 //handle gemini api request :ROUTE
 router.post("/chat", geminiResponse);
 
+//worker credentials form request
 
-
+router.post("/workerCredentials", auth2,  wCredentialsCheck);
+router.get("/showData",auth2 ,showData);
 
 module.exports = router;

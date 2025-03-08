@@ -1,31 +1,45 @@
-// models/WorkerExperience.js
 const mongoose = require("mongoose");
 
-const WorkerExperienceSchema = new mongoose.Schema({
-  worker: {
+const WorkerCredentialSchema = new mongoose.Schema({
+  workerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Worker",
     required: true,
   },
-  workExperience: {
-    type: String, // Example: "5 years in plumbing"
-    required: true,
-  },
-  paymentRange: {
-    min: { type: Number, required: true },
-    max: { type: Number, required: true },
-  },
+  workExperience: [
+    {
+      company: { type: String, required: true },
+      role: { type: String, required: true },
+      years: { type: Number, required: true },
+    },
+  ],
   workHours: {
-    start: { type: String, required: true }, // Example: "09:00 AM"
-    end: { type: String, required: true }, // Example: "06:00 PM"
+    startTime: { type: String, required: true }, // e.g., "09:00 AM"
+    endTime: { type: String, required: true },   // e.g., "06:00 PM"
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  govtCertifications: [
+    {
+      name: { type: String, required: true }, // e.g., "Electrician License"
+      fileUrl: { type: String, required: true }, // Cloud storage URL
+      issuedBy: { type: String, required: true },
+      issueDate: { type: Date, required: true },
+    },
+  ],
+  paymentRange: {
+    minRate: { type: Number, required: true }, // Minimum rate (INR/hour)
+    maxRate: { type: Number, required: true }, // Maximum rate (INR/hour)
   },
-});
-WorkerSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
-};
-const WorkerExperience = mongoose.model("WorkerExperience", WorkerExperienceSchema);
-module.exports = WorkerExperience;
+  
+  location: {
+    type: String,
+    required: true, // 🔹 Store City/State
+  },
+  coordinates: {
+    type: { type: String, enum: ["Point"], default: "Point" }, // 🔹 GeoJSON format
+    coordinates: { type: [Number], required: true, index: "2dsphere" }, // [longitude, latitude]
+  },
+
+}, { timestamps: true });
+
+const WorkerCredential = mongoose.model("WorkerCredential", WorkerCredentialSchema);
+module.exports = WorkerCredential;

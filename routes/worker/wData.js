@@ -4,11 +4,12 @@ const wData = async (req, res) => {
     try {
         console.log("Request User Data:", req.user); // Debugging Log
 
-        if (!req.user || !req.user.email) {
+        if (!req.user || !req.user.id) {
             return res.status(400).json({ message: "Invalid user session" });
         }
 
-        const worker = await Worker.findOne({ email: req.user.email }).select("-password");
+        // ✅ Fetch Worker by ID (instead of email)
+        const worker = await Worker.findById(req.user.id).select("-password");
 
         if (!worker) {
             return res.status(404).json({ message: "Worker not found" });
