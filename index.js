@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 //parses
@@ -12,14 +13,20 @@ dotenv.config(); // Load the .env file
 //cors 
 const cors = require('cors');
 app.use(cors({
-    origin: 'http://localhost:8081', // Adjust based on your frontend port
+    origin: 'http://localhost:8080', // Adjust based on your frontend port
     credentials: true
 }));
 
 //mongoose
 const mongoose = require('mongoose');
+const uri = process.env.MONGO_URI; 
 const main = async () => {
-    (await mongoose.connect('mongodb://127.0.0.1:27017/GigConnect'))
+    try {
+        await mongoose.connect(uri);
+        console.log("Connected to MongoDB Atlas successfully!");
+    } catch (error) {
+        console.error("Error connecting to MongoDB Atlas", error);
+    }
 }
 const SECRET_KEY = process.env.JWT_SECRET || "jjjjeeee5555";
 main().then((res) => console.log(res)).catch((err) => console.log(err));
